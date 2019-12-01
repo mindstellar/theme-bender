@@ -79,7 +79,7 @@ FUNCTIONS
             $temp_name     = WebThemes::newInstance()->getCurrentThemePath() . 'images/logo.jpg';
             if( file_exists( $temp_name ) && !$logo_prefence) {
 
-                $img = ImageResizer::fromFile($temp_name);
+                $img = ImageProcessing::fromFile($temp_name);
                 $ext = $img->getExt();
                 $logo_name .= '.'.$ext;
                 $img->saveToFile(osc_uploads_path().$logo_name);
