@@ -19,13 +19,10 @@
      * License along with this program.  If not, see <http://www.gnu.org/licenses/>.
      */
 
-    $category = __get('category');
-    if(!isset($category['pk_i_id']) ) {
-        if(!is_array($category)){
-            $category = [];
-        }
-        $category['pk_i_id'] = null;
-    }
+$category = (array)__get('category');
+if (!isset($category['pk_i_id'])) {
+    $category['pk_i_id'] = null;
+}
 ?>
 <div id="sidebar">
 <?php osc_alert_form(); ?>
