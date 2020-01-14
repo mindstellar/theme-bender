@@ -31,7 +31,7 @@
 
     $listClass = '';
     $buttonClass = '';
-    if(Params::getParam('ShowAs') == 'gallery'){
+    if(Params::getParam('ShowAs') === 'gallery'){
         $listClass = 'listing-grid';
         $buttonClass = 'active';
     }
@@ -44,8 +44,10 @@
     <?php } else { ?>
         <div class="actions">
             <span class="doublebutton <?php echo $buttonClass; ?>">
-                <a href="<?php echo osc_user_list_items_url(); ?>?ShowAs=list" class="list-button" data-class-toggle="listing-grid" data-destination="#listing-card-list"><span>Lista</span></a>
-                <a href="<?php echo osc_user_list_items_url(); ?>?ShowAs=gallery" class="grid-button" data-class-toggle="listing-grid" data-destination="#listing-card-list"><span>Grid</span></a>
+                <a href="<?php echo osc_user_list_items_url(); ?>&ShowAs=list" class="list-button"
+                   data-class-toggle="listing-grid" data-destination="#listing-card-list"><span>Lista</span></a>
+                <a href="<?php echo osc_user_list_items_url(); ?>&ShowAs=gallery" class="grid-button"
+                   data-class-toggle="listing-grid" data-destination="#listing-card-list"><span>Grid</span></a>
             </span>
         </div>
     </div>
