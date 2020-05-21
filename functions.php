@@ -28,6 +28,7 @@ DEFINES
     if( (string)osc_get_preference('keyword_placeholder', 'bender')=="" ) {
         Params::setParam('keyword_placeholder', __('ie. PHP Programmer', 'bender') ) ;
     }
+if(!OC_ADMIN) {
     osc_register_script('fancybox', osc_current_web_theme_url('js/fancybox/jquery.fancybox.pack.js'), array('jquery'));
     osc_enqueue_style('fancybox', osc_current_web_theme_url('js/fancybox/jquery.fancybox.css'));
     osc_enqueue_script('fancybox');
@@ -35,15 +36,14 @@ DEFINES
     osc_enqueue_style('font-awesome', osc_current_web_theme_url('css/font-awesome-4.1.0/css/font-awesome.min.css'));
     // used for date/dateinterval custom fields
     osc_enqueue_script('php-date');
-    if(!OC_ADMIN) {
-        osc_enqueue_style('fine-uploader-css', osc_assets_url('js/fineuploader/fineuploader.css'));
-        if(getPreference('rtl','bender')=='0') {
-            osc_enqueue_style('bender-fine-uploader-css', osc_current_web_theme_url('css/ajax-uploader.css'));
-        } else {
-            osc_enqueue_style('bender-fine-uploader-css', osc_current_web_theme_url('css/ajax-uploader-rtl.css'));
-        }
+    osc_enqueue_style('fine-uploader-css', osc_assets_url('js/fineuploader/fineuploader.css'));
+    if (getPreference('rtl', 'bender') == '0') {
+        osc_enqueue_style('bender-fine-uploader-css', osc_current_web_theme_url('css/ajax-uploader.css'));
+    } else {
+        osc_enqueue_style('bender-fine-uploader-css', osc_current_web_theme_url('css/ajax-uploader-rtl.css'));
     }
     osc_enqueue_script('jquery-fineuploader');
+}
 
 
 /**
