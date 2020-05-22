@@ -27,7 +27,7 @@
     }
 
     osc_enqueue_script('fancybox');
-    osc_enqueue_style('fancybox', osc_current_web_theme_url('js/fancybox/jquery.fancybox.css'));
+    osc_enqueue_style('fancybox', osc_current_web_theme_url('js/fancybox/css/jquery.fancybox.min.css'));
     osc_enqueue_script('jquery-validate');
 
     bender_add_body_class('item');
