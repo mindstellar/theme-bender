@@ -190,31 +190,10 @@ $(document).ready(function(event){
         $('#mask_as_form').submit();
         $('#mask_as_form').submit();
     });
-
-    if(typeof $.fancybox == 'function') {
-        $("a.fancybox").fancybox({
-            openEffect : 'none',
-            closeEffect : 'none',
-            nextEffect : 'fade',
-            prevEffect : 'fade',
-            loop : false,
-            helpers : {
-                title : {
-                    type : 'inside'
-                }
-            },
-            tpl: {
-                prev: '<a title="'+bender.fancybox_prev+'" class="fancybox-nav fancybox-prev"><span></span></a>',
-                next: '<a title="'+bender.fancybox_next+'" class="fancybox-nav fancybox-next"><span></span></a>',
-                closeBtn : '<a title="'+bender.fancybox_closeBtn+'" class="fancybox-item fancybox-close" href="javascript:;"></a>'
-            }
+    $(".fancybox").fancybox({
+            openEffect	: 'none',
+            closeEffect	: 'none',
+        fitToView  : false,
+        autoSize    : false,
         });
-
-        $(".main-photo").on('click', function(e) {
-            e.preventDefault();
-            $("a.fancybox").first().click();
-        });
-
-
-    }
 });
