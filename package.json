@@ -1,6 +1,6 @@
 {
   "name": "bender",
-  "version": "3.1.5",
+  "version": "3.2.1",
   "description": "Bender theme",
   "author": "Osclass",
   "devDependencies": {
@@ -11,5 +11,10 @@
     "grunt-shell": "~3.0.1",
     "grunt-text-replace": "~0.4.0",
     "grunt-template": "~1.0.0"
+  },
+  "license": "AGPL-3.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mindstellar/theme-bender.git"
   }
 }
