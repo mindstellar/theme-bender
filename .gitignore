@@ -10,6 +10,7 @@ packages/*
 /package-lock.json
 
 /vendor/
+/composer.lock
 
 # Intellij IDEA
 .idea/*
