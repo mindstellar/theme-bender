@@ -11,3 +11,7 @@ packages/*
 
 /vendor/
 composer.lock
+
+# Intellij IDEA
+.idea/*
+*.iml
