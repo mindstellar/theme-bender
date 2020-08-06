@@ -61,9 +61,11 @@ if (!isset($category['pk_i_id'])) {
             <div class="row price-slice">
                 <h3><?php _e('Price', 'bender') ; ?></h3>
                 <span><?php _e('Min', 'bender') ; ?>.</span>
-                <input class="input-text" type="text" id="priceMin" name="sPriceMin" value="<?php echo osc_esc_html(osc_search_price_min()); ?>" size="6" maxlength="6" />
+                <input class="input-text" type="text" id="priceMin" name="sPriceMin" value="<?php echo osc_esc_html
+                (osc_search_price_min()); ?>" size="6" maxlength="10" />
                 <span><?php _e('Max', 'bender') ; ?>.</span>
-                <input class="input-text" type="text" id="priceMax" name="sPriceMax" value="<?php echo osc_esc_html(osc_search_price_max()); ?>" size="6" maxlength="6" />
+                <input class="input-text" type="text" id="priceMax" name="sPriceMax" value="<?php echo osc_esc_html
+                (osc_search_price_max()); ?>" size="6" maxlength="10" />
             </div>
         </fieldset>
         <?php } ?>
