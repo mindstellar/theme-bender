@@ -23,7 +23,7 @@
  *
  * DEFINES
  */
-define('BENDER_THEME_VERSION', '320');
+define('BENDER_THEME_VERSION', '3.2.2');
 if ((string)osc_get_preference('keyword_placeholder', 'bender') == "") {
     Params::setParam('keyword_placeholder', __('ie. PHP Programmer', 'bender'));
 }
@@ -99,7 +99,7 @@ if (!function_exists('bender_theme_update')) {
             osc_set_preference('rtl', '0', 'bender');
             osc_set_preference('version', '320', 'bender');
         }
-        osc_set_preference('version', '320', 'bender');
+        osc_set_preference('version', '3.2.2', 'bender');
         osc_reset_preferences();
     }
 }
