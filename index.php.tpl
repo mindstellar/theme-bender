@@ -3,7 +3,7 @@
      *      Osclass – software for creating and publishing online classified
      *                           advertising platforms
      *
-     *                        Copyright (C) 2014 OSCLASS
+     *                        Maintained By Mindstellar
      *
      *       This program is free software: you can redistribute it and/or
      *     modify it under the terms of the GNU Affero General Public License
@@ -29,16 +29,4 @@ Author URI: http://osclass.org/
 Widgets:  header, footer
 Theme update URI: bender
 */
-
-    function bender_theme_info() {
-        return array(
-             'name'        => 'bender'
-            ,'version'     => '<%- pkg.version %>'
-            ,'description' => '<%- pkg.description %>'
-            ,'author_name' => '<%- pkg.author %>'
-            ,'author_url'  => 'http://osclass.org'
-            ,'locations'   => array()
-        );
-    }
-
 ?>

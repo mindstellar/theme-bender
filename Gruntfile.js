@@ -14,22 +14,12 @@ module.exports = function(grunt) {
         },
         shell: { },
         template: { },
-        sass: {
-            dist: {
-                options: {
-                    style: 'compressed',
-                    compass: true
-                },
-                files: {
-                    'css/main.css': 'sass/main.scss'
-                }
-            }
-        },
         copy: { }
     });
 
     var themeObj = grunt.config.get('theme');
     var pkg = grunt.config.get('pkg');
+
     for ( var key in themeObj ) {
         var theme = themeObj[key];
 
