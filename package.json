@@ -16,5 +16,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/mindstellar/theme-bender.git"
+  },
+  "dependencies": {
+    "compass": "^0.1.1",
+    "compass-mixins": "^0.12.10",
+    "grunt-contrib-compass": "^1.1.1"
   }
 }

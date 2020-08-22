@@ -13,6 +13,17 @@ module.exports = function(grunt) {
             }
         },
         shell: { },
+        sass: {
+            dist: {
+                options: {
+                    style: 'compressed',
+                    compass: true
+                },
+                files: {
+                    'css/main.css': 'sass/main.scss'
+                }
+            }
+        },
         template: { },
         copy: { }
     });
@@ -110,7 +121,7 @@ module.exports = function(grunt) {
             }
         });
 
-        grunt.registerTask('dist:' + key, ['template:' + key, 'sass', 'copy:' + key, 'copy:screenshoot_' + key, 'replace:' + key, 'shell:compress_' + key]);
+        grunt.registerTask('dist:' + key, ['template:' + key, 'copy:' + key, 'copy:screenshoot_' + key, 'replace:' + key, 'shell:compress_' + key]);
     }
 
     grunt.registerTask('dist', ['dist:red', 'dist:black', 'dist:purple', 'dist:blue'])
@@ -119,6 +130,7 @@ module.exports = function(grunt) {
     grunt.loadTasks('tasks');
 
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-compass')
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-shell');
