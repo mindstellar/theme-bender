@@ -23,7 +23,7 @@
 Theme Name: bender
 Theme URI: http://osclass.org/
 Description: Bender theme
-Version: 3.2.2
+Version: 3.2.3
 Author: Osclass
 Author URI: http://osclass.org/
 Widgets:  header, footer
