@@ -283,7 +283,7 @@ if (!function_exists('bender_draw_categories_list')) {
                         $_name        = osc_category_name();
                         $_total_items = osc_category_total_items();
                         if (osc_count_subcategories() > 0) { ?>
-                            <span class="collapse resp-toogle"><i class="fa fa-caret-right fa-lg"></i></span>
+                            <span class="collapse .resp-toggle"><i class="fa fa-caret-right fa-lg"></i></span>
                         <?php } ?>
                         <?php if ($_total_items > 0) { ?>
                             <a class="category <?php echo $_slug; ?>"
