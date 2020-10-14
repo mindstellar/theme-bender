@@ -172,29 +172,35 @@
                             </div>
                         </div>
                         <!-- seller info -->
-                        <?php if(!osc_is_web_user_logged_in() ) { ?>
                         <div class="box seller_info">
                             <h2><?php _e("Seller's information", 'bender'); ?></h2>
-                            <div class="control-group">
-                                <label class="control-label" for="contactName"><?php _e('Name', 'bender'); ?></label>
-                                <div class="controls">
-                                    <?php ItemForm::contact_name_text(); ?>
+                            <?php if(!osc_is_web_user_logged_in()) { ?>
+                                <div class="control-group">
+                                    <label class="control-label" for="contactName"><?php _e('Name', 'bender'); ?></label>
+                                    <div class="controls">
+                                        <?php ItemForm::contact_name_text(); ?>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label" for="contactEmail"><?php _e('E-mail', 'bender'); ?></label>
-                                <div class="controls">
-                                    <?php ItemForm::contact_email_text(); ?>
+                                <div class="control-group">
+                                    <label class="control-label" for="contactEmail"><?php _e('E-mail', 'bender'); ?></label>
+                                    <div class="controls">
+                                        <?php ItemForm::contact_email_text(); ?>
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="control-group">
+                                    <div class="controls checkbox">
+                                        <?php ItemForm::show_email_checkbox(); ?> <label for="showEmail"><?php _e('Show e-mail on the listing page', 'bender'); ?></label>
+                                    </div>
+                                </div>
+                            <?php } ?>
                             <div class="control-group">
-                                <div class="controls checkbox">
-                                    <?php ItemForm::show_email_checkbox(); ?> <label for="showEmail"><?php _e('Show e-mail on the listing page', 'bender'); ?></label>
+                                <label class="control-label" for="contactPhone"><?php _e('Phone', 'bender'); ?></label>
+                                <div class="controls">
+                                    <?php ItemForm::contact_phone_text(); ?>
                                 </div>
                             </div>
                         </div>
                         <?php
-                        }
                         if($edit) {
                             ItemForm::plugin_edit_item();
                         } else {
