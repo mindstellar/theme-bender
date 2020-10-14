@@ -72,6 +72,9 @@
             <?php if( osc_item_show_email() ) { ?>
                 <p class="email"><?php printf(__('E-mail: %s', 'bender'), osc_item_contact_email()); ?></p>
             <?php } ?>
+            <?php if ( osc_item_contact_phone() != '' ) { ?>
+                <p class="phone"><?php printf(__("Phone: %s", 'bender'), osc_item_contact_phone()); ?></p>
+            <?php } ?>
             <?php if ( osc_user_phone() != '' ) { ?>
                 <p class="phone"><?php printf(__("Phone: %s", 'bender'), osc_user_phone()); ?></p>
             <?php } ?>
