@@ -98,6 +98,11 @@ input.ui-button,
 button.ui-button{
     padding-left:10px;
     padding-right:10px;
+    // A native <button>/<input> reusing .ui-button must not add the OS chrome.
+    -webkit-appearance:none;
+    appearance:none;
+    font:inherit;
+    cursor:pointer;
 }
 .ui-button-main{
     @include button-style($maincolor);

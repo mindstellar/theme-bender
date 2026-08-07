@@ -1,6 +1,6 @@
 <?php
     /*
-     *      Osclass – software for creating and publishing online classified
+     *      Shopclass – software for creating and publishing online classified
      *                           advertising platforms
      *
      *                        Copyright (C) 2014 OSCLASS
@@ -26,10 +26,8 @@
         'cancel' => __('Cancel', 'bender')
     );
 
-    osc_enqueue_script('jquery');
-    osc_enqueue_script('jquery-ui');
-    osc_register_script('global-theme-js', osc_current_web_theme_js_url('global.js'), 'jquery');
-    osc_register_script('delete-user-js', osc_current_web_theme_js_url('delete_user.js'), 'jquery-ui');
+    osc_register_script('global-theme-js', osc_asset_url_versioned(osc_current_web_theme_js_url('bender-core.js')));
+    osc_register_script('delete-user-js', osc_asset_url_versioned(osc_current_web_theme_js_url('bender-account.js')));
     osc_enqueue_script('global-theme-js');
 ?>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
@@ -47,9 +45,6 @@
 <link rel="canonical" href="<?php echo osc_get_canonical(); ?>"/>
 <!-- /canonical -->
 <?php } ?>
-<meta http-equiv="Cache-Control" content="no-cache" />
-<meta http-equiv="Expires" content="Fri, Jan 01 1970 00:00:00 GMT" />
-
 <meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0" />
 
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -63,15 +58,10 @@
 <link rel="apple-touch-icon-precomposed" href="<?php echo osc_current_web_theme_url('favicon/favicon-57.png'); ?>">
 <!-- /favicon -->
 
-<link href="<?php echo osc_current_web_theme_url('js/jquery-ui/jquery-ui-1.10.2.custom.min.css') ; ?>" rel="stylesheet" type="text/css" />
-
 <script type="text/javascript">
     var bender = window.bender || {};
     bender.base_url = '<?php echo osc_base_url(true); ?>';
     bender.langs = <?php echo json_encode($js_lang); ?>;
-    bender.fancybox_prev = '<?php echo osc_esc_js( __('Previous image','bender')) ?>';
-    bender.fancybox_next = '<?php echo osc_esc_js( __('Next image','bender')) ?>';
-    bender.fancybox_closeBtn = '<?php echo osc_esc_js( __('Close','bender')) ?>';
 </script>
 <?php if(bender_default_direction()=='0') { ?>
 <link href="<?php echo osc_current_web_theme_url('css/main.css') ; ?>" rel="stylesheet" type="text/css" />

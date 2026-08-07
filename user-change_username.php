@@ -1,6 +1,6 @@
 <?php
     /*
-     *      Osclass – software for creating and publishing online classified
+     *      Shopclass – software for creating and publishing online classified
      *                           advertising platforms
      *
      *                        Copyright (C) 2014 OSCLASS
@@ -22,8 +22,6 @@
     // meta tag robots
     osc_add_hook('header','bender_nofollow_construct');
 
-    osc_enqueue_script('jquery-validate');
-
     bender_add_body_class('user user-profile');
     osc_add_hook('before-main','sidebar');
     function sidebar(){
@@ -38,51 +36,51 @@
 ?>
 <h1><?php _e('Change username', 'bender'); ?></h1>
 <script type="text/javascript">
-$(document).ready(function() {
-    $('form#change-username').validate({
-        rules: {
-            s_username: {
-                required: true
+(function () {
+    "use strict";
+    var form = document.getElementById('change-username');
+    var errorList = document.getElementById('error_list');
+    var username = document.getElementById('s_username');
+    var available = document.getElementById('available');
+    if (!form) { return; }
+
+    form.addEventListener('submit', function (e) {
+        errorList && (errorList.textContent = '');
+        if (!form.elements.s_username.value.trim()) {
+            e.preventDefault();
+            if (errorList) {
+                var li = document.createElement('li');
+                li.textContent = '<?php echo osc_esc_js(__("Username: this field is required", "bender")); ?>.';
+                errorList.appendChild(li);
             }
-        },
-        messages: {
-            s_username: {
-                required: '<?php echo osc_esc_js(__("Username: this field is required", "bender")); ?>.'
-            }
-        },
-        errorLabelContainer: "#error_list",
-        wrapper: "li",
-        invalidHandler: function(form, validator) {
-            $('html,body').animate({ scrollTop: $('h1').offset().top }, { duration: 250, easing: 'swing'});
-        },
-        submitHandler: function(form){
-            $('button[type=submit], input[type=submit]').attr('disabled', 'disabled');
-            form.submit();
+            var h1 = document.querySelector('h1');
+            if (h1) { h1.scrollIntoView({ behavior: 'smooth' }); }
+            return;
         }
+        form.querySelectorAll('button[type=submit], input[type=submit]').forEach(function (btn) {
+            btn.disabled = true;
+        });
     });
 
-    var cInterval;
-    $("#s_username").keydown(function(event) {
-        if($("#s_username").attr("value")!='') {
-            clearInterval(cInterval);
-            cInterval = setInterval(function(){
-                $.getJSON(
-                    "<?php echo osc_base_url(true); ?>?page=ajax&action=check_username_availability",
-                    {"s_username": $("#s_username").attr("value")},
-                    function(data){
-                        clearInterval(cInterval);
-                        if(data.exists==0) {
-                            $("#available").text('<?php echo osc_esc_js(__("The username is available", "bender")); ?>');
-                        } else {
-                            $("#available").text('<?php echo osc_esc_js(__("The username is NOT available", "bender")); ?>');
-                        }
-                    }
-                );
+    if (username && available) {
+        var timer = null;
+        username.addEventListener('keydown', function () {
+            clearTimeout(timer);
+            if (!username.value) { return; }
+            timer = setTimeout(function () {
+                var url = "<?php echo osc_base_url(true); ?>?page=ajax&action=check_username_availability"
+                    + "&s_username=" + encodeURIComponent(username.value);
+                fetch(url, { credentials: 'same-origin', headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+                    .then(function (r) { return r.json(); })
+                    .then(function (data) {
+                        available.textContent = data.exists == 0
+                            ? '<?php echo osc_esc_js(__("The username is available", "bender")); ?>'
+                            : '<?php echo osc_esc_js(__("The username is NOT available", "bender")); ?>';
+                    });
             }, 1000);
-        }
-    });
-
-});
+        });
+    }
+})();
 </script>
 <div class="form-container form-horizontal">
     <div class="resp-wrapper">

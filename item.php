@@ -1,6 +1,6 @@
 <?php
     /*
-     *      Osclass – software for creating and publishing online classified
+     *      Shopclass – software for creating and publishing online classified
      *                           advertising platforms
      *
      *                        Copyright (C) 2014 OSCLASS
@@ -26,9 +26,8 @@
         osc_add_hook('header','bender_follow_construct');
     }
 
-    osc_enqueue_script('fancybox');
-    osc_enqueue_style('fancybox', osc_current_web_theme_url('js/fancybox/css/jquery.fancybox.min.css'));
-    osc_enqueue_script('jquery-validate');
+    osc_register_script('bender-item', osc_asset_url_versioned(osc_current_web_theme_url('js/bender-item.js')));
+    osc_enqueue_script('bender-item');
 
     bender_add_body_class('item');
     osc_add_hook('after-main','sidebar');
@@ -95,6 +94,13 @@
                 <?php } ?>
             </div>
         </div>
+        <dialog class="bender-lightbox" id="bender-lightbox" aria-label="<?php echo osc_esc_html(__('Image viewer', 'bender')); ?>">
+            <button type="button" class="bender-lightbox__close" data-dialog-close aria-label="<?php echo osc_esc_html(__('Close', 'bender')); ?>">&times;</button>
+            <button type="button" class="bender-lightbox__nav bender-lightbox__prev" data-lightbox-step="-1" aria-label="<?php echo osc_esc_html(__('Previous image', 'bender')); ?>">&#8249;</button>
+            <img data-lightbox-img src="" alt="" />
+            <button type="button" class="bender-lightbox__nav bender-lightbox__next" data-lightbox-step="1" aria-label="<?php echo osc_esc_html(__('Next image', 'bender')); ?>">&#8250;</button>
+            <p class="bender-lightbox__count" data-lightbox-count></p>
+        </dialog>
         <?php } ?>
     <?php } ?>
     <div id="description">
@@ -122,8 +128,45 @@
                 <?php     } ?>
             <?php     } ?>
             <?php } ?>
-           <a href="<?php echo osc_item_send_friend_url(); ?>" rel="nofollow" class="ui-button ui-button-middle"><?php _e('Share', 'bender'); ?></a>
+           <a href="#" role="button" class="ui-button ui-button-middle" data-dialog-open="bender-share"><?php _e('Share', 'bender'); ?></a>
         </p>
+        <dialog class="bender-share" id="bender-share" aria-labelledby="bender-share-title">
+            <button type="button" class="bender-share__close" data-dialog-close aria-label="<?php echo osc_esc_html(__('Close', 'bender')); ?>">&times;</button>
+            <h2 id="bender-share-title"><?php _e('Share this listing', 'bender'); ?></h2>
+            <div class="bender-share__copy">
+                <input class="bender-share__input" type="text" readonly data-share-url value="<?php echo osc_esc_html(osc_item_url()); ?>" onclick="this.select();" />
+                <button type="button" class="ui-button" data-share-copy data-copied="<?php echo osc_esc_html(__('Link copied.', 'bender')); ?>"><?php _e('Copy', 'bender'); ?></button>
+            </div>
+            <p class="bender-share__status" role="status" data-share-status></p>
+            <button type="button" class="ui-button ui-button-middle bender-share__native" data-share-native hidden
+                    data-share-title="<?php echo osc_esc_html(osc_item_title()); ?>"
+                    data-share-url="<?php echo osc_esc_html(osc_item_url()); ?>">
+                <?php _e('Share…', 'bender'); ?>
+            </button>
+            <div class="bender-share__targets">
+                <a class="ui-button" target="_blank" rel="noopener noreferrer" href="https://wa.me/?text=<?php echo rawurlencode(osc_item_title() . "\n" . osc_item_url()); ?>">WhatsApp</a>
+                <a class="ui-button" target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo rawurlencode(osc_item_url()); ?>">Facebook</a>
+            </div>
+        </dialog>
+        <style type="text/css">
+            .bender-lightbox, .bender-share { border: none; border-radius: 4px; padding: 20px; box-shadow: 0 4px 24px rgba(0,0,0,.3); }
+            .bender-lightbox::backdrop, .bender-share::backdrop { background: rgba(0,0,0,.75); }
+            .bender-lightbox { width: 90vw; max-width: 900px; background: #000; text-align: center; position: relative; }
+            .bender-lightbox img { max-width: 100%; max-height: 78vh; }
+            .bender-lightbox__count { color: #fff; margin: 10px 0 0; }
+            .bender-lightbox__close, .bender-share__close { position: absolute; top: 8px; right: 8px; border: none; background: transparent; color: inherit; font-size: 1.4em; line-height: 1; cursor: pointer; }
+            .bender-lightbox__close { color: #fff; }
+            .bender-lightbox__nav { position: absolute; top: 50%; transform: translateY(-50%); border: none; background: rgba(0,0,0,.4); color: #fff; font-size: 2em; line-height: 1; padding: 6px 14px; cursor: pointer; }
+            .bender-lightbox__prev { left: 10px; }
+            .bender-lightbox__next { right: 10px; }
+            .bender-share { width: 90vw; max-width: 380px; background: #fff; }
+            .bender-share__copy { display: flex; gap: 6px; margin: 10px 0; }
+            .bender-share__input { flex: 1; }
+            .bender-share__status { min-height: 1.2em; font-size: .9em; color: #35C3D9; }
+            .bender-share__native { display: block; width: 100%; margin-bottom: 10px; }
+            .bender-share__native[hidden] { display: none; }
+            .bender-share__targets { display: flex; gap: 8px; }
+        </style>
         <?php osc_run_hook('location'); ?>
     </div>
     <!-- plugins -->
@@ -212,6 +255,13 @@
                                     <?php CommentForm::body_input_textarea(); ?>
                                 </div>
                             </div>
+                            <?php if( osc_recaptcha_comments_enabled() && osc_captcha_enabled() ) { ?>
+                            <div class="control-group">
+                                <div class="controls">
+                                    <?php osc_show_captcha('comments'); ?>
+                                </div>
+                            </div>
+                            <?php } ?>
                             <div class="actions">
                                 <button type="submit"><?php _e('Send', 'bender'); ?></button>
                             </div>

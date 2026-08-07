@@ -1,6 +1,6 @@
 <?php
     /*
-     *      Osclass – software for creating and publishing online classified
+     *      Shopclass – software for creating and publishing online classified
      *                           advertising platforms
      *
      *                        Copyright (C) 2014 OSCLASS
@@ -23,7 +23,6 @@
     osc_add_hook('header','bender_nofollow_construct');
 
     bender_add_body_class('register');
-    osc_enqueue_script('jquery-validate');
     osc_current_web_theme_path('header.php') ;
 ?>
 <div class="form-container form-horizontal form-container-box">
@@ -65,7 +64,7 @@
             <?php osc_run_hook('user_register_form'); ?>
             <div class="control-group">
                 <div class="controls">
-                    <?php osc_show_recaptcha('register'); ?>
+                    <?php osc_show_captcha('register'); ?>
                 </div>
             </div>
             <div class="control-group">

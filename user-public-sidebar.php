@@ -1,6 +1,6 @@
 <?php
     /*
-     *      Osclass – software for creating and publishing online classified
+     *      Shopclass – software for creating and publishing online classified
      *                           advertising platforms
      *
      *                        Copyright (C) 2014 OSCLASS
@@ -50,7 +50,7 @@
                     <div class="control-group">
                         <div class="controls">
                             <?php osc_run_hook('item_contact_form', osc_item_id()); ?>
-                            <?php osc_show_recaptcha(); ?>
+                            <?php osc_show_captcha(); ?>
                             <button type="submit" class="ui-button ui-button-middle ui-button-main"><?php _e("Send", 'bender');?></button>
                         </div>
                     </div>

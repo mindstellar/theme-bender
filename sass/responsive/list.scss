@@ -1,12 +1,23 @@
+// Grid view lays cards out with flex-wrap so every card in a row shares the
+// tallest card's height, instead of floats that leave the rows ragged.
+.listing-card-list.listing-grid{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:stretch;
+}
 .listing-grid .listing-card,
 body.search .listing-grid .listing-card{
     width: 32%;
     padding: 0%;
     border: 0;
     margin: 1%;
+    float:none;
+    display:flex;
+    flex-direction:column;
 }
 .listing-grid .listing-detail{
     border:solid 1px #ECECEC;
+    flex:1 1 auto;
 }
 .listing-grid .listing-thumb{
     float:none;

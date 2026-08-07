@@ -1,6 +1,6 @@
 <?php
     /*
-     *      Osclass – software for creating and publishing online classified
+     *      Shopclass – software for creating and publishing online classified
      *                           advertising platforms
      *
      *                        Copyright (C) 2014 OSCLASS
@@ -45,8 +45,6 @@
     $location = implode(", ", $location_array);
     unset($location_array);
 
-    osc_enqueue_script('jquery-validate');
-
     bender_add_body_class('user-public-profile');
     osc_add_hook('after-main','sidebar');
     function sidebar(){
@@ -54,10 +52,16 @@
     }
 
     osc_current_web_theme_path('header.php');
+    $bender_profile_uid = osc_user_id();
 ?>
 <div id="item-content">
     <div class="user-card">
-        <img src="http://www.gravatar.com/avatar/<?php echo md5( strtolower( trim( osc_user_email() ) ) ); ?>?s=120&d=<?php echo osc_current_web_theme_url('images/user_default.gif') ; ?>" />
+        <?php if( bender_has_avatar($bender_profile_uid) ) { ?>
+        <img src="<?php echo osc_esc_html(osc_user_avatar_url($bender_profile_uid, 'normal')); ?>" alt="<?php echo osc_esc_html(osc_user_name()); ?>" />
+        <?php } else { ?>
+        <?php bender_avatar_style(); ?>
+        <span class="avatar-monogram avatar-monogram--lg"><?php echo osc_esc_html(bender_user_monogram(osc_user_name())); ?></span>
+        <?php } ?>
         <ul id="user_data">
             <li class="name"><?php echo osc_user_name(); ?></li>
             <?php if( osc_user_website() !== '' ) { ?>

@@ -1,6 +1,6 @@
 <?php
     /*
-     *      Osclass – software for creating and publishing online classified
+     *      Shopclass – software for creating and publishing online classified
      *                           advertising platforms
      *
      *                        Copyright (C) 2014 OSCLASS
@@ -23,6 +23,9 @@
   <a href="#" data-bclass-toggle="display-filters" class="resp-toggle show-filters-btn"><?php _e('Display menu','bender'); ?></a>
 </div>
 <div id="sidebar">
+    <?php if( bender_has_avatar() ) { bender_avatar_style(); ?>
+    <div class="account-avatar"><img class="avatar-thumb" src="<?php echo osc_esc_html(osc_user_avatar_url( osc_logged_user_id(), 'thumbnail' )); ?>" alt="" /></div>
+    <?php } ?>
     <?php echo osc_private_user_menu( get_user_menu() ); ?>
 </div>
 <div id="dialog-delete-account" title="<?php echo osc_esc_html(__('Delete account', 'bender')); ?>">

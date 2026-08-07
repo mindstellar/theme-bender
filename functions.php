@@ -1,6 +1,6 @@
 <?php
 /*
- *      Osclass – software for creating and publishing online classified
+ *      Shopclass – software for creating and publishing online classified
  *                           advertising platforms
  *
  *                        Copyright (C) 2014 OSCLASS
@@ -23,26 +23,19 @@
  *
  * DEFINES
  */
-define('BENDER_THEME_VERSION', '3.2.2');
+define('BENDER_RED_THEME_VERSION', '3.3.0');
+define('BENDER_RED_THEME_FOLDER', __DIR__);
 if ((string)osc_get_preference('keyword_placeholder', 'bender') == "") {
     Params::setParam('keyword_placeholder', __('ie. PHP Programmer', 'bender'));
 }
 if (!OC_ADMIN) {
-    osc_register_script('fancybox', osc_current_web_theme_url('js/fancybox/js/jquery.fancybox.min.js'),
-        array('jquery'));
-    osc_enqueue_style('fancybox', osc_current_web_theme_url('js/fancybox/css/jquery.fancybox.min.css'));
-    osc_enqueue_script('fancybox');
-
-    osc_enqueue_style('font-awesome', osc_current_web_theme_url('css/font-awesome-4.1.0/css/font-awesome.min.css'));
+    osc_enqueue_style('font-awesome', osc_asset_url_versioned(osc_current_web_theme_url('css/font-awesome-4.1.0/css/font-awesome.min.css')));
     // used for date/dateinterval custom fields
     osc_enqueue_script('php-date');
-    osc_enqueue_style('fine-uploader-css', osc_assets_url('osclass-legacy/js/fineuploader/fineuploader.css'));
-    if (getPreference('rtl', 'bender') == '0') {
-        osc_enqueue_style('bender-fine-uploader-css', osc_current_web_theme_url('css/ajax-uploader.css'));
-    } else {
-        osc_enqueue_style('bender-fine-uploader-css', osc_current_web_theme_url('css/ajax-uploader-rtl.css'));
-    }
-    osc_enqueue_script('jquery-fineuploader');
+    // Item-form photo uploader: the core vanilla osc-uploader (replaces the jQuery
+    // fine-uploader plugin). Registered in oc-load.php; the theme decides to load it.
+    osc_enqueue_script('osc-uploader');
+    osc_enqueue_style('osc-uploader');
 }
 
 
@@ -56,7 +49,7 @@ if (!function_exists('bender_theme_install')) {
     function bender_theme_install()
     {
         osc_set_preference('keyword_placeholder', Params::getParam('keyword_placeholder'), 'bender');
-        osc_set_preference('version', BENDER_THEME_VERSION, 'bender');
+        osc_set_preference('version', BENDER_RED_THEME_VERSION, 'bender');
         osc_set_preference('footer_link', '1', 'bender');
         osc_set_preference('donation', '0', 'bender');
         osc_set_preference('defaultShowAs@all', 'list', 'bender');
@@ -110,7 +103,7 @@ if (!function_exists('check_install_bender_theme')) {
         //check if current version is installed or need an update<
         if ($current_version == '') {
             bender_theme_update(0);
-        } elseif ($current_version < BENDER_THEME_VERSION) {
+        } elseif ($current_version < BENDER_RED_THEME_VERSION) {
             bender_theme_update($current_version);
         }
     }
@@ -824,6 +817,70 @@ class benderBodyClass
  *
  * HELPERS
  */
+
+/**
+ * Whether the uploaded-avatar feature is available: the core helpers must
+ * exist (older cores don't ship them) and the operator preference must be on.
+ */
+if (!function_exists('bender_avatars_enabled')) {
+    function bender_avatars_enabled()
+    {
+        return function_exists('osc_user_avatar_url')
+            && function_exists('osc_get_preference')
+            && osc_get_preference('enabled_user_avatars');
+    }
+}
+
+/**
+ * True when the given user (defaults to the logged-in user) has an uploaded
+ * avatar, guarded for cores without the API.
+ */
+if (!function_exists('bender_has_avatar')) {
+    function bender_has_avatar($userId = null)
+    {
+        return function_exists('osc_has_user_avatar') && osc_has_user_avatar($userId);
+    }
+}
+
+/**
+ * Uppercase monogram fallback for a user with no photo, multibyte-safe.
+ */
+if (!function_exists('bender_user_monogram')) {
+    function bender_user_monogram($name = null)
+    {
+        if ($name === null) {
+            $name = osc_logged_user_name();
+        }
+
+        return $name !== '' ? mb_strtoupper(mb_substr($name, 0, 1, 'UTF-8'), 'UTF-8') : '?';
+    }
+}
+
+/**
+ * Scoped CSS for the avatar thumbnail/monogram markup, printed once per
+ * request since several account templates can render on the same page.
+ */
+if (!function_exists('bender_avatar_style')) {
+    function bender_avatar_style()
+    {
+        static $printed = false;
+        if ($printed) {
+            return;
+        }
+        $printed = true;
+        ?>
+        <style type="text/css">
+            .avatar-thumb{display:inline-block;vertical-align:middle;width:28px;height:28px;border-radius:3px;margin-right:6px;object-fit:cover;}
+            .avatar-preview{display:inline-block;vertical-align:middle;width:60px;height:60px;border-radius:3px;margin-right:10px;object-fit:cover;}
+            .avatar-monogram{display:inline-flex;align-items:center;justify-content:center;background:#35C3D9;color:#fff;font-weight:bold;border-radius:3px;vertical-align:middle;margin-right:10px;}
+            .avatar-monogram--sm{width:28px;height:28px;font-size:1em;margin-right:6px;}
+            .avatar-monogram--md{width:60px;height:60px;font-size:1.6em;}
+            .user-card .avatar-monogram--lg{position:absolute;top:0;left:0;width:120px;height:120px;font-size:3em;border-radius:4px 0 0 4px;margin:0;}
+        </style>
+        <?php
+    }
+}
+
 if (!function_exists('osc_uploads_url')) {
     function osc_uploads_url($item = '')
     {

@@ -1,6 +1,6 @@
 <?php
     /*
-     *      Osclass – software for creating and publishing online classified
+     *      Shopclass – software for creating and publishing online classified
      *                           advertising platforms
      *
      *                        Copyright (C) 2014 OSCLASS
@@ -20,39 +20,61 @@
      */
 ?>
 <script type="text/javascript">
-$(document).ready(function(){
-    $(".sub_button").click(function(){
-        $.post('<?php echo osc_base_url(true); ?>', {email:$("#alert_email").val(), userid:$("#alert_userId").val(), alert:$("#alert").val(), page:"ajax", action:"alerts"},
-            function(data){
-                if(data==1) { alert('<?php echo osc_esc_js(__('You have sucessfully subscribed to the alert', 'bender')); ?>'); }
-                else if(data==-1) { alert('<?php echo osc_esc_js(__('Invalid email address', 'bender')); ?>'); }
-                else { alert('<?php echo osc_esc_js(__('There was a problem with the alert', 'bender')); ?>');
-                };
-        });
-        return false;
-    });
-
-    var sQuery = '<?php echo osc_esc_js(AlertForm::default_email_text()); ?>';
-
-    if($('input[name=alert_email]').val() == sQuery) {
-        $('input[name=alert_email]').css('color', 'gray');
+(function () {
+    "use strict";
+    function ready(fn) {
+        if (document.readyState !== 'loading') { fn(); }
+        else { document.addEventListener('DOMContentLoaded', fn); }
     }
-    $('input[name=alert_email]').click(function(){
-        if($('input[name=alert_email]').val() == sQuery) {
-            $('input[name=alert_email]').val('');
-            $('input[name=alert_email]').css('color', '');
+    ready(function () {
+        var subButton = document.querySelector('.sub_button');
+        if (subButton) {
+            subButton.addEventListener('click', function (e) {
+                e.preventDefault();
+                var email = document.getElementById('alert_email');
+                var userId = document.getElementById('alert_userId');
+                var alertField = document.getElementById('alert');
+                var body = new URLSearchParams({
+                    email: email ? email.value : '',
+                    userid: userId ? userId.value : '',
+                    alert: alertField ? alertField.value : '',
+                    page: 'ajax',
+                    action: 'alerts'
+                });
+                fetch('<?php echo osc_base_url(true); ?>', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: body.toString()
+                }).then(function (r) { return r.text(); }).then(function (data) {
+                    if (data == 1) { alert('<?php echo osc_esc_js(__('You have sucessfully subscribed to the alert', 'bender')); ?>'); }
+                    else if (data == -1) { alert('<?php echo osc_esc_js(__('Invalid email address', 'bender')); ?>'); }
+                    else { alert('<?php echo osc_esc_js(__('There was a problem with the alert', 'bender')); ?>'); }
+                });
+            });
+        }
+
+        var sQuery = '<?php echo osc_esc_js(AlertForm::default_email_text()); ?>';
+        var emailInput = document.querySelector('input[name=alert_email]');
+        if (emailInput) {
+            if (emailInput.value === sQuery) { emailInput.style.color = 'gray'; }
+            emailInput.addEventListener('click', function () {
+                if (emailInput.value === sQuery) {
+                    emailInput.value = '';
+                    emailInput.style.color = '';
+                }
+            });
+            emailInput.addEventListener('blur', function () {
+                if (emailInput.value === '') {
+                    emailInput.value = sQuery;
+                    emailInput.style.color = 'gray';
+                }
+            });
+            emailInput.addEventListener('keypress', function () {
+                emailInput.style.background = '';
+            });
         }
     });
-    $('input[name=alert_email]').blur(function(){
-        if($('input[name=alert_email]').val() == '') {
-            $('input[name=alert_email]').val(sQuery);
-            $('input[name=alert_email]').css('color', 'gray');
-        }
-    });
-    $('input[name=alert_email]').keypress(function(){
-        $('input[name=alert_email]').css('background','');
-    })
-});
+})();
 </script>
 
 <div class="alert_form">

@@ -1,6 +1,6 @@
 <?php
     /*
-     *      Osclass – software for creating and publishing online classified
+     *      Shopclass – software for creating and publishing online classified
      *                           advertising platforms
      *
      *                        Copyright (C) 2014 OSCLASS
@@ -22,7 +22,6 @@
     // meta tag robots
     osc_add_hook('header','bender_nofollow_construct');
 
-    osc_enqueue_script('jquery-validate');
     bender_add_body_class('item item-post');
     $action = 'item_add_post';
     $edit = false;
@@ -82,9 +81,14 @@
                             </div>
                         </div>
                         <?php } ?>
-                        <?php if( osc_images_enabled_at_items() ) {
-                            ItemForm::ajax_photos();
-                         } ?>
+                        <?php if( osc_images_enabled_at_items() ) { ?>
+                        <div class="control-group">
+                            <label class="control-label"><?php _e('Photos', 'bender'); ?></label>
+                            <div class="controls">
+                                <?php ItemForm::ajax_photos(); ?>
+                            </div>
+                        </div>
+                        <?php } ?>
                         <div class="box location">
                             <h2><?php _e('Listing Location', 'bender'); ?></h2>
                             <?php if(count(osc_get_countries()) > 1) { ?>
@@ -204,7 +208,7 @@
                         <div class="control-group">
                             <?php if( osc_recaptcha_items_enabled() ) { ?>
                                 <div class="controls">
-                                    <?php osc_show_recaptcha(); ?>
+                                    <?php osc_show_captcha(); ?>
                                 </div>
                             <?php }?>
                             <div class="controls">
@@ -216,32 +220,35 @@
             </div>
         </div>
         <script type="text/javascript">
-            $('#price').bind('hide-price', function(){
-                $('.control-group-price').hide();
+        (function () {
+            "use strict";
+            var price = document.getElementById('price');
+            if (!price) { return; }
+
+            price.addEventListener('hide-price', function () {
+                document.querySelectorAll('.control-group-price').forEach(function (el) { el.style.display = 'none'; });
+            });
+            price.addEventListener('show-price', function () {
+                document.querySelectorAll('.control-group-price').forEach(function (el) { el.style.display = ''; });
             });
 
-            $('#price').bind('show-price', function(){
-                $('.control-group-price').show();
+            <?php if(osc_locale_thousands_sep()!='' || osc_locale_dec_point() != '') { ?>
+            price.addEventListener('blur', function () {
+                var value = price.value;
+                <?php if(osc_locale_thousands_sep()!='') { ?>
+                while (value.indexOf('<?php echo osc_esc_js(osc_locale_thousands_sep());  ?>') !== -1) {
+                    value = value.replace('<?php echo osc_esc_js(osc_locale_thousands_sep());  ?>', '');
+                }
+                <?php }; ?>
+                <?php if(osc_locale_dec_point()!='') { ?>
+                var tmp = value.split('<?php echo osc_esc_js(osc_locale_dec_point())?>');
+                if (tmp.length > 2) {
+                    value = tmp[0] + '<?php echo osc_esc_js(osc_locale_dec_point())?>' + tmp[1];
+                }
+                <?php }; ?>
+                price.value = value;
             });
-
-    <?php if(osc_locale_thousands_sep()!='' || osc_locale_dec_point() != '') { ?>
-    $().ready(function(){
-        $("#price").blur(function(event) {
-            var price = $("#price").prop("value");
-            <?php if(osc_locale_thousands_sep()!='') { ?>
-            while(price.indexOf('<?php echo osc_esc_js(osc_locale_thousands_sep());  ?>')!=-1) {
-                price = price.replace('<?php echo osc_esc_js(osc_locale_thousands_sep());  ?>', '');
-            }
             <?php }; ?>
-            <?php if(osc_locale_dec_point()!='') { ?>
-            var tmp = price.split('<?php echo osc_esc_js(osc_locale_dec_point())?>');
-            if(tmp.length>2) {
-                price = tmp[0]+'<?php echo osc_esc_js(osc_locale_dec_point())?>'+tmp[1];
-            }
-            <?php }; ?>
-            $("#price").prop("value", price);
-        });
-    });
-    <?php }; ?>
+        })();
 </script>
 <?php osc_current_web_theme_path('footer.php'); ?>

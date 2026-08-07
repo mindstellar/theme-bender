@@ -1,6 +1,6 @@
 <?php
     /*
-     *      Osclass – software for creating and publishing online classified
+     *      Shopclass – software for creating and publishing online classified
      *                           advertising platforms
      *
      *                        Copyright (C) 2014 OSCLASS
@@ -39,9 +39,25 @@
 <div class="form-container form-horizontal">
     <div class="resp-wrapper">
         <ul id="error_list"></ul>
-        <form action="<?php echo osc_base_url(true); ?>" method="post">
+        <form action="<?php echo osc_base_url(true); ?>" method="post" enctype="multipart/form-data">
             <input type="hidden" name="page" value="user" />
             <input type="hidden" name="action" value="profile_post" />
+            <?php if( bender_avatars_enabled() ) { $bender_has_av = bender_has_avatar(); bender_avatar_style(); ?>
+            <div class="control-group">
+                <label class="control-label" for="avatar"><?php _e('Photo', 'bender'); ?></label>
+                <div class="controls">
+                    <?php if( $bender_has_av ) { ?>
+                        <img class="avatar-preview" src="<?php echo osc_esc_html(osc_user_avatar_url(osc_logged_user_id(), 'normal')); ?>" alt="" />
+                    <?php } else { ?>
+                        <span class="avatar-monogram avatar-monogram--md"><?php echo osc_esc_html(bender_user_monogram(osc_user_name())); ?></span>
+                    <?php } ?>
+                    <input type="file" name="avatar" id="avatar" accept="image/*" />
+                    <?php if( $bender_has_av ) { ?>
+                        <label><input type="checkbox" name="remove_avatar" value="1" /> <?php _e('Remove photo', 'bender'); ?></label>
+                    <?php } ?>
+                </div>
+            </div>
+            <?php } ?>
             <div class="control-group">
                 <label class="control-label" for="name"><?php _e('Name', 'bender'); ?></label>
                 <div class="controls">

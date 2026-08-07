@@ -1,6 +1,6 @@
 <?php
     /*
-     *      Osclass – software for creating and publishing online classified
+     *      Shopclass – software for creating and publishing online classified
      *                           advertising platforms
      *
      *                        Copyright (C) 2014 OSCLASS
@@ -22,7 +22,6 @@
     // meta tag robots
     osc_add_hook('header','bender_nofollow_construct');
 
-    osc_enqueue_script('jquery-validate');
     bender_add_body_class('user user-profile');
     osc_add_hook('before-main','sidebar');
     function sidebar(){
@@ -63,30 +62,42 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(document).ready(function() {
-        $('form#change-email').validate({
-            rules: {
-                new_email: {
-                    required: true,
-                    email: true
-                }
-            },
-            messages: {
-                new_email: {
-                    required: '<?php echo osc_esc_js(__("Email: this field is required", "bender")); ?>.',
-                    email: '<?php echo osc_esc_js(__("Invalid email address", "bender")); ?>.'
-                }
-            },
-            errorLabelContainer: "#error_list",
-            wrapper: "li",
-            invalidHandler: function(form, validator) {
-                $('html,body').animate({ scrollTop: $('h1').offset().top }, { duration: 250, easing: 'swing'});
-            },
-            submitHandler: function(form){
-                $('button[type=submit], input[type=submit]').attr('disabled', 'disabled');
-                form.submit();
+(function () {
+    "use strict";
+    var form = document.getElementById('change-email');
+    var errorList = document.getElementById('error_list');
+    if (!form) { return; }
+
+    var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    form.addEventListener('submit', function (e) {
+        var field = form.elements.new_email;
+        var errors = [];
+        if (!field.value.trim()) {
+            errors.push('<?php echo osc_esc_js(__("Email: this field is required", "bender")); ?>.');
+        } else if (!emailRe.test(field.value.trim())) {
+            errors.push('<?php echo osc_esc_js(__("Invalid email address", "bender")); ?>.');
+        }
+
+        if (errorList) { errorList.textContent = ''; }
+        if (errors.length) {
+            e.preventDefault();
+            if (errorList) {
+                errors.forEach(function (msg) {
+                    var li = document.createElement('li');
+                    li.textContent = msg;
+                    errorList.appendChild(li);
+                });
             }
+            var h1 = document.querySelector('h1');
+            if (h1) { h1.scrollIntoView({ behavior: 'smooth' }); }
+            return;
+        }
+
+        form.querySelectorAll('button[type=submit], input[type=submit]').forEach(function (btn) {
+            btn.disabled = true;
         });
     });
+})();
 </script>
 <?php osc_current_web_theme_path('footer.php') ; ?>

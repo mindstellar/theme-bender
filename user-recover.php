@@ -1,6 +1,6 @@
 <?php
     /*
-     *      Osclass – software for creating and publishing online classified
+     *      Shopclass – software for creating and publishing online classified
      *                           advertising platforms
      *
      *                        Copyright (C) 2014 OSCLASS
@@ -37,7 +37,7 @@
             <label class="control-label" for="email"><?php _e('E-mail', 'bender'); ?></label>
             <div class="controls">
                 <?php UserForm::email_text(); ?>
-                <?php osc_show_recaptcha('recover_password'); ?>
+                <?php osc_show_captcha('recover_password'); ?>
             </div>
         </div>
             <div class="control-group">

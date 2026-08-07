@@ -1,6 +1,6 @@
 <?php
     /*
-     *      Osclass – software for creating and publishing online classified
+     *      Shopclass – software for creating and publishing online classified
      *                           advertising platforms
      *
      *                        Copyright (C) 2014 OSCLASS
@@ -45,7 +45,7 @@
             </fieldset>
         </form>
     <?php } else { ?>
-        <div class="flashmessage flashmessage-warning flashmessage-inline" style="display: block;">
+        <div class="flashmessage flashmessage-warning flashmessage-inline">
             <p><?php _e('No logo has been uploaded yet', 'bender'); ?></p>
         </div>
     <?php } ?>
@@ -72,11 +72,11 @@
         </fieldset>
     </form>
 <?php } else { ?>
-    <div class="flashmessage flashmessage-error" style="display: block;">
+    <div class="flashmessage flashmessage-error">
         <p>
             <?php
                 $msg  = sprintf(__('The images folder <strong>%s</strong> is not writable on your server', 'bender'), WebThemes::newInstance()->getCurrentThemePath() ."images/" ) .", ";
-                $msg .= __("Osclass can't upload the logo image from the administration panel.", 'bender') . ' ';
+                $msg .= __("Shopclass can't upload the logo image from the administration panel.", 'bender') . ' ';
                 $msg .= __('Please make the aforementioned image folder writable.', 'bender') . ' ';
                 echo $msg;
             ?>

@@ -21,11 +21,11 @@
 
 /*
 Theme Name: bender
-Theme URI: http://osclass.org/
+Theme URI: https://github.com/mindstellar/theme-bender
 Description: <%- pkg.description %>
 Version: <%- pkg.version %>
 Author: <%- pkg.author %>
-Author URI: http://osclass.org/
+Author URI: https://github.com/mindstellar
 Widgets:  header, footer
 Theme update URI: bender
 */

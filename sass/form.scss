@@ -164,3 +164,17 @@ body.item-post .select-box{
 .form-container .controls #photos a{
     font-size:12px !important;
 }
+// Keep the core vanilla photo uploader inside the field column on item-post,
+// and let the section after it clear.
+.form-horizontal .osc-uploader{
+    margin:0;
+    max-width:100%;
+}
+.form-horizontal .box.location{
+    clear:both;
+}
+// Bender's generic ".controls input" styling outspecifies the uploader input's
+// [hidden] attribute; keep the native file input hidden (the drop label owns it).
+.osc-uploader .osc-uploader-input[hidden]{
+    display:none;
+}

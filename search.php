@@ -1,6 +1,6 @@
 <?php
     /*
-     *      Osclass – software for creating and publishing online classified
+     *      Shopclass – software for creating and publishing online classified
      *                           advertising platforms
      *
      *                        Copyright (C) 2014 OSCLASS
@@ -37,26 +37,36 @@
     function sidebar(){
         osc_current_web_theme_path('search-sidebar.php');
     }
+    osc_enqueue_script('osc-ui-common');
+    osc_enqueue_style('osc-ui-common');
     osc_add_hook('footer','autocompleteCity');
     function autocompleteCity(){ ?>
     <script type="text/javascript">
-    $(function() {
-                    function log( message ) {
-                        $( "<div/>" ).text( message ).prependTo( "#log" );
-                        $( "#log" ).attr( "scrollTop", 0 );
-                    }
-
-                    $( "#sCity" ).autocomplete({
-                        source: "<?php echo osc_base_url(true); ?>?page=ajax&action=location",
-                        minLength: 2,
-                        select: function( event, ui ) {
-                            $("#sRegion").attr("value", ui.item.region);
-                            log( ui.item ?
-                                "<?php echo osc_esc_html( __('Selected', 'bender') ); ?>: " + ui.item.value + " aka " + ui.item.id :
-                                "<?php echo osc_esc_html( __('Nothing selected, input was', 'bender') ); ?> " + this.value );
-                        }
-                    });
-                });
+    (function () {
+        "use strict";
+        function log(message) {
+            var box = document.getElementById('log');
+            if (!box) { return; }
+            var line = document.createElement('div');
+            line.textContent = message;
+            box.insertBefore(line, box.firstChild);
+            box.scrollTop = 0;
+        }
+        var input = document.getElementById('sCity');
+        if (input && typeof oscAutocomplete === 'function') {
+            oscAutocomplete(input, {
+                source: "<?php echo osc_base_url(true); ?>?page=ajax&action=location",
+                minLength: 2,
+                onSelect: function (item) {
+                    var region = document.getElementById('sRegion');
+                    if (region) { region.value = item.region; }
+                    log(item ?
+                        "<?php echo osc_esc_html( __('Selected', 'bender') ); ?>: " + item.value + " aka " + item.id :
+                        "<?php echo osc_esc_html( __('Nothing selected, input was', 'bender') ); ?> " + input.value);
+                }
+            });
+        }
+    })();
     </script>
     <?php
     }

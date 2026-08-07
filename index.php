@@ -1,6 +1,6 @@
 <?php
     /*
-     *      Osclass – software for creating and publishing online classified
+     *      Shopclass – software for creating and publishing online classified
      *                           advertising platforms
      *
      *                        Maintained By Mindstellar
@@ -21,11 +21,11 @@
 
 /*
 Theme Name: bender
-Theme URI: http://osclass.org/
+Theme URI: https://github.com/mindstellar/theme-bender
 Description: Bender theme
-Version: 3.2.3
-Author: Osclass
-Author URI: http://osclass.org/
+Version: 3.3.0
+Author: Shopclass
+Author URI: https://github.com/mindstellar
 Widgets:  header, footer
 Theme update URI: bender
 */

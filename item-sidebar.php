@@ -1,6 +1,6 @@
 <?php
     /*
-     *      Osclass – software for creating and publishing online classified
+     *      Shopclass – software for creating and publishing online classified
      *                           advertising platforms
      *
      *                        Copyright (C) 2014 OSCLASS
@@ -65,7 +65,13 @@
             </p>
         <?php } else { ?>
             <?php if( osc_item_user_id() != null ) { ?>
-                <p class="name"><?php _e('Name', 'bender') ?>: <a href="<?php echo osc_user_public_profile_url( osc_item_user_id() ); ?>" ><?php echo osc_item_contact_name(); ?></a></p>
+                <p class="name">
+                    <?php _e('Name', 'bender') ?>:
+                    <?php if( bender_has_avatar( osc_item_user_id() ) ) { bender_avatar_style(); ?>
+                        <img class="avatar-thumb" src="<?php echo osc_esc_html(osc_user_avatar_url( osc_item_user_id(), 'thumbnail' )); ?>" alt="" />
+                    <?php } ?>
+                    <a href="<?php echo osc_user_public_profile_url( osc_item_user_id() ); ?>" ><?php echo osc_item_contact_name(); ?></a>
+                </p>
             <?php } else { ?>
                 <p class="name"><?php printf(__('Name: %s', 'bender'), osc_item_contact_name()); ?></p>
             <?php } ?>
@@ -104,12 +110,12 @@
                         <label class="control-label" for="attachment"><?php _e('Attachment', 'bender'); ?>:</label>
                         <div class="controls"><?php ContactForm::your_attachment(); ?></div>
                     </div>
-                <?php } ?>
+                <?php }; ?>
 
                 <div class="control-group">
                     <div class="controls">
                         <?php osc_run_hook('item_contact_form', osc_item_id()); ?>
-                        <?php osc_show_recaptcha(); ?>
+                        <?php osc_show_captcha(); ?>
                         <button type="submit" class="ui-button ui-button-middle ui-button-main"><?php _e("Send", 'bender');?></button>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 <?php
     /*
-     *      Osclass – software for creating and publishing online classified
+     *      Shopclass – software for creating and publishing online classified
      *                           advertising platforms
      *
      *                        Copyright (C) 2014 OSCLASS
@@ -46,6 +46,13 @@
                     <?php UserForm::password_login_text(); ?>
                 </div>
             </div>
+            <?php if (osc_captcha_enabled()) { ?>
+                <div class="control-group">
+                    <div class="controls">
+                        <?php osc_show_captcha('login'); ?>
+                    </div>
+                </div>
+            <?php } ?>
             <div class="control-group">
                 <div class="controls checkbox">
                     <?php UserForm::rememberme_login_checkbox();?> <label for="remember"><?php _e('Remember me', 'bender'); ?></label>

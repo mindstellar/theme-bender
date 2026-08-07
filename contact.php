@@ -1,6 +1,6 @@
 <?php
     /*
-     *      Osclass – software for creating and publishing online classified
+     *      Shopclass – software for creating and publishing online classified
      *                           advertising platforms
      *
      *                        Copyright (C) 2014 OSCLASS
@@ -23,7 +23,6 @@
     osc_add_hook('header','bender_nofollow_construct');
 
     bender_add_body_class('contact');
-    osc_enqueue_script('jquery-validate');
     osc_current_web_theme_path('header.php');
 ?>
 <div class="form-container form-horizontal form-container-box">
@@ -64,7 +63,7 @@
             <div class="control-group">
                 <div class="controls">
                     <?php osc_run_hook('contact_form'); ?>
-                    <?php osc_show_recaptcha(); ?>
+                    <?php osc_show_captcha(); ?>
                     <button type="submit" class="ui-button ui-button-middle ui-button-main"><?php _e("Send", 'bender');?></button>
                     <?php osc_run_hook('admin_contact_form'); ?>
                 </div>
