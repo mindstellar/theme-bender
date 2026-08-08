@@ -15,3 +15,4 @@
 /index.php.tpl     export-ignore
 /dist              export-ignore
 /packages          export-ignore
+/BUILD.md          export-ignore
