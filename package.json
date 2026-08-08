@@ -1,8 +1,8 @@
 {
   "name": "bender",
-  "version": "3.2.3",
+  "version": "3.3.1",
   "description": "Bender theme",
-  "author": "Osclass",
+  "author": "Shopclass",
   "devDependencies": {
     "grunt": "~1.1.0",
     "grunt-contrib-copy": "~1.0.0",
