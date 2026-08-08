@@ -13,6 +13,5 @@
 /composer.lock     export-ignore
 /themes.json       export-ignore
 /index.php.tpl     export-ignore
-/README.md         export-ignore
 /dist              export-ignore
 /packages          export-ignore
