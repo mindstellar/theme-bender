@@ -12,7 +12,7 @@
      */
 
 $category = (array)__get('category');
-if (!isset($category['pk_i_id'])) {
+if (isset($category['pk_i_id'])) {
     $category['pk_i_id'] = null;
 }
 ?>
@@ -82,7 +82,11 @@ if (!isset($category['pk_i_id'])) {
     <fieldset>
         <div class="row ">
             <h3><?php _e('Refine category', 'bender') ; ?></h3>
-            <?php bender_sidebar_category_search($category['pk_i_id']); ?>
+            <?php 
+            if( isset($category['pk_i_id']) ) {
+                bender_sidebar_category_search($category['pk_i_id']);
+            }
+            ?>
         </div>
     </fieldset>
 </div>
