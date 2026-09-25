@@ -112,6 +112,49 @@ if (!function_exists('check_install_bender_theme')) {
     }
 }
 
+if (!function_exists('bender_alert_summary')) {
+    /**
+     * One line describing the current alert's saved search, or '' when the core cannot say.
+     * Works on any core: locations are shown only when the core stores alerts as search
+     * values, since older ones keep them as SQL.
+     */
+    function bender_alert_summary()
+    {
+        if (!function_exists('osc_get_raw_search') || !function_exists('osc_alert_field')) {
+            return '';
+        }
+        $raw = osc_get_raw_search((array) json_decode((string) osc_alert_field('s_search'), true));
+        if (!is_array($raw)) {
+            return '';
+        }
+        if (!empty($raw['held'])) {
+            return __('Paused: delete this alert and save the search again.', 'bender');
+        }
+
+        $parts = array();
+        if (!empty($raw['sPattern']) && is_string($raw['sPattern'])) {
+            $parts[] = '"' . $raw['sPattern'] . '"';
+        }
+        $keys = isset($raw['params']) ? array('aCategories', 'city_areas', 'cities', 'regions', 'countries') : array('aCategories');
+        foreach ($keys as $key) {
+            if (!empty($raw[$key]) && is_array($raw[$key])) {
+                $parts[] = implode(', ', array_filter($raw[$key], 'is_scalar'));
+            }
+        }
+        $min = !empty($raw['price_min']) ? (float) $raw['price_min'] : null;
+        $max = !empty($raw['price_max']) ? (float) $raw['price_max'] : null;
+        if ($min !== null && $max !== null) {
+            $parts[] = sprintf(__('Price %1$s - %2$s', 'bender'), $min, $max);
+        } elseif ($min !== null) {
+            $parts[] = sprintf(__('Price from %s', 'bender'), $min);
+        } elseif ($max !== null) {
+            $parts[] = sprintf(__('Price up to %s', 'bender'), $max);
+        }
+
+        return $parts ? implode(' · ', $parts) : __('All listings', 'bender');
+    }
+}
+
 if (!function_exists('bender_add_body_class_construct')) {
     function bender_add_body_class_construct($classes)
     {
