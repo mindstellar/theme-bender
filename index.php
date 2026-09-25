@@ -15,13 +15,13 @@
 Theme Name: bender
 Theme URI: https://github.com/mindstellar/theme-bender
 Description: Bender theme
-Version: 3.3.1
+Version: 3.3.2
 Author: Shopclass
 Author URI: https://github.com/mindstellar
 Widgets:  header, footer
 Theme update URI: bender
 Requires Shopclass: 6.0.0
-Tested up to: 6.1
+Tested up to: 6.4
 Requires PHP: 8.0
 */
 ?>
