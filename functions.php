@@ -52,12 +52,30 @@ if (!function_exists('bender_theme_install')) {
     }
 }
 // update options
+if (!function_exists('bender_theme_version')) {
+    /**
+     * The stored theme version as a dotted string. Releases before 3.2.2 stored it as
+     * a bare number (301, 313, 314, 320).
+     */
+    function bender_theme_version($stored)
+    {
+        $stored = (string) $stored;
+        if (preg_match('/^\d{3}$/', $stored)) {
+            return $stored[0] . '.' . $stored[1] . '.' . $stored[2];
+        }
+
+        return $stored;
+    }
+}
 if (!function_exists('bender_theme_update')) {
     function bender_theme_update($current_version)
     {
         if ($current_version == 0) {
             bender_theme_install();
+
+            return;
         }
+        $current_version = bender_theme_version($current_version);
         osc_delete_preference('default_logo', 'bender');
 
         $logo_prefence = osc_get_preference('logo', 'bender');
@@ -71,20 +89,14 @@ if (!function_exists('bender_theme_update')) {
             $img->saveToFile(osc_uploads_path() . $logo_name);
             osc_set_preference('logo', $logo_name, 'bender');
         }
-        osc_set_preference('version', '301', 'bender');
 
-        if ($current_version < 313 || $current_version == '3.0.1') {
-            // add preferences
+        if (version_compare($current_version, '3.1.3', '<')) {
             osc_set_preference('defaultLocationShowAs', 'dropdown', 'bender');
-            osc_set_preference('version', '313', 'bender');
         }
-        osc_set_preference('version', '314', 'bender');
-        if ($current_version < 320) {
-            // add preferences
+        if (version_compare($current_version, '3.2.0', '<')) {
             osc_set_preference('rtl', '0', 'bender');
-            osc_set_preference('version', '320', 'bender');
         }
-        osc_set_preference('version', '3.2.2', 'bender');
+        osc_set_preference('version', BENDER_RED_THEME_VERSION, 'bender');
         osc_reset_preferences();
     }
 }
@@ -92,10 +104,9 @@ if (!function_exists('check_install_bender_theme')) {
     function check_install_bender_theme()
     {
         $current_version = osc_get_preference('version', 'bender');
-        //check if current version is installed or need an update<
         if ($current_version == '') {
             bender_theme_update(0);
-        } elseif ($current_version < BENDER_RED_THEME_VERSION) {
+        } elseif (version_compare(bender_theme_version($current_version), BENDER_RED_THEME_VERSION, '<')) {
             bender_theme_update($current_version);
         }
     }
