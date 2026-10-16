@@ -19,9 +19,19 @@
     function sidebar(){
         osc_current_web_theme_path('user-sidebar.php');
     }
+    // Core's credits pages and plugin account pages use core's oe-* classes, so they need its stylesheet.
+    if (function_exists('osc_gui_print_style')) {
+        osc_add_hook('header', function () { osc_gui_print_style(); });
+    }
     osc_current_web_theme_path('header.php') ;
-
-    osc_render_file();
-
+?>
+<div class="oe-page">
+    <div class="oe-account-main">
+        <?php osc_run_hook('account_page_before', 'user-custom'); ?>
+        <?php osc_render_file(); ?>
+        <?php osc_run_hook('account_page_after', 'user-custom'); ?>
+    </div>
+</div>
+<?php
     osc_current_web_theme_path('footer.php');
 ?>
