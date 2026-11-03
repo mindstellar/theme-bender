@@ -65,6 +65,34 @@ if (!function_exists('bender_theme_version')) {
         return $stored;
     }
 }
+if (!function_exists('bender_save_logo')) {
+    /**
+     * Saves an image file as the logo in the uploads folder and returns its file name.
+     * Core 7.1 and newer use the image Processor; older cores use ImageProcessing.
+     *
+     * @param string $source
+     * @param string $baseName
+     *
+     * @return string
+     */
+    function bender_save_logo($source, $baseName)
+    {
+        if (class_exists('mindstellar\\image\\Processor')) {
+            $processor = \mindstellar\image\Processor::site();
+            $image     = $processor->open($source);
+            $ext       = $processor->defaultExt($image);
+            $processor->save($image, osc_uploads_path() . $baseName . '.' . $ext, $ext);
+
+            return $baseName . '.' . $ext;
+        }
+        $img = ImageProcessing::fromFile($source);
+        $ext = $img->getExt();
+        $img->saveToFile(osc_uploads_path() . $baseName . '.' . $ext);
+
+        return $baseName . '.' . $ext;
+    }
+}
+
 if (!function_exists('bender_theme_update')) {
     function bender_theme_update($current_version)
     {
@@ -81,10 +109,7 @@ if (!function_exists('bender_theme_update')) {
         $temp_name     = WebThemes::newInstance()->getCurrentThemePath() . 'images/logo.jpg';
         if (file_exists($temp_name) && !$logo_prefence) {
 
-            $img       = ImageProcessing::fromFile($temp_name);
-            $ext       = $img->getExt();
-            $logo_name .= '.' . $ext;
-            $img->saveToFile(osc_uploads_path() . $logo_name);
+            $logo_name = bender_save_logo($temp_name, $logo_name);
             osc_set_preference('logo', $logo_name, 'bender');
         }
 
@@ -648,12 +673,7 @@ function theme_bender_actions_admin()
         case('upload_logo'):
             $package = Params::getFiles('logo');
             if ($package['error'] == UPLOAD_ERR_OK) {
-                $img       = ImageResizer::fromFile($package['tmp_name']);
-                $ext       = $img->getExt();
-                $logo_name = 'bender_logo';
-                $logo_name .= '.' . $ext;
-                $path      = osc_uploads_path() . $logo_name;
-                $img->saveToFile($path);
+                $logo_name = bender_save_logo($package['tmp_name'], 'bender_logo');
 
                 osc_set_preference('logo', $logo_name, 'bender');
 
