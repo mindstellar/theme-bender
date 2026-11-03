@@ -5,8 +5,6 @@
 /.github           export-ignore
 /.DS_Store         export-ignore
 /sass              export-ignore
-/Gruntfile.js      export-ignore
-/config.rb         export-ignore
 /package.json      export-ignore
 /package-lock.json export-ignore
 /composer.json     export-ignore

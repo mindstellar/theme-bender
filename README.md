@@ -1,39 +1,15 @@
 # Bender
 
-## Dependencies
-
-* [Node.js](http://nodejs.org/)
-* [Sass](http://sass-lang.com/)
-
-Once you have the dependencies installed, run the following command:
-
-```
-$> npm install
-```
-
-## Structure
-
-There are two template files:
-
-* `index.php.tpl`
-* `sass/colors.scss.tpl`
-
-If you want to generate them again, you just have to execute `grunt template:blue`.
-
-## Watch changes
-
-You can compile sass files automatically every time it's changed by executing the following command:
-
-```
-$> grunt watch:blue
-```
+A classifieds theme for Shopclass.
 
 ## Build
 
-```
-$> grunt dist
-```
+There is no build step. `css/main.css` is the stylesheet that ships, so edit it directly.
+`sass/` holds the old sources, kept for reference; see `BUILD.md`.
 
-It generates a `.zip` file per color scheme: blue (default), red, black and purple. The `index.php` and `colors.scss` are generated from the variables in `themes.json`. The screenshots are taken from `screenshot/{color scheme}/screenshot.png`.
+## Release
+
+Update the version in `index.php` and `package.json`, then push a tag such as `v3.3.4`.
+The release workflow packs the theme into `bender_<version>.zip`.
 
 ![Bender](http://pool.theinfosphere.org/images/1/14/Bender_promo_2.jpg)

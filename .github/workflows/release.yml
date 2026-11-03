@@ -34,7 +34,7 @@ jobs:
           echo "value=$V" >> "$GITHUB_OUTPUT"
 
       # git archive honours .gitattributes export-ignore, so dev/build files
-      # (sass, Gruntfile, package.json, tpl, ...) are left out of the zip. The
+      # (sass, package.json, ...) are left out of the zip. The
       # committed css/main.css is the shipped stylesheet — no Sass build needed.
       - name: Build theme zip
         run: |
