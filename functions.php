@@ -22,8 +22,6 @@ if ((string)osc_get_preference('keyword_placeholder', 'bender') == "") {
 }
 if (!OC_ADMIN) {
     osc_enqueue_style('font-awesome', osc_asset_url_versioned(osc_current_web_theme_url('css/font-awesome-4.1.0/css/font-awesome.min.css')));
-    // used for date/dateinterval custom fields
-    osc_enqueue_script('php-date');
     // Item-form photo uploader: the core vanilla osc-uploader (replaces the jQuery
     // fine-uploader plugin). Registered in oc-load.php; the theme decides to load it.
     osc_enqueue_script('osc-uploader');
