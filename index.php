@@ -15,7 +15,7 @@
 Theme Name: bender
 Theme URI: https://github.com/mindstellar/theme-bender
 Description: Bender theme
-Version: 3.3.3
+Version: 3.3.4
 Author: Shopclass
 Author URI: https://github.com/mindstellar
 Widgets:  header, footer
